@@ -1,0 +1,19 @@
+{
+    "task_name": "forecast",
+    "ckpt_path": "",
+    "patch_len": 16,
+    "d_model": 512,
+    "d_ff": 2048,
+    "e_layers": 6,
+    "n_heads": 8,
+    "dropout": 0.1,
+    "output_attention": false,
+    "factor": 3,
+    "activation": "gelu",
+    "batch_size": 2,
+    "sequence_length": 1000,
+    "epoch": 100,
+    "num_workers": 4,
+    "data_path": "/home/alic-li/PowerForecasting/dataset/electricity/electricity.csv",
+    "save_ckpt_path": "output_weight/ELC"
+}
