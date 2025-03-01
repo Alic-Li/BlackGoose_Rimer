@@ -12,27 +12,22 @@ def print_csv_information(file_path):
     print(df.head())
     print("\n")
     
-    # 输出数据的基本信息
     print("数据的基本信息:")
     print(df.info())
     print("\n")
     
-    # 输出数据的描述性统计信息
     print("数据的描述性统计信息:")
     print(df.describe(include='all'))
     print("\n")
-    
-    # 检查缺失值
+
     print("缺失值情况:")
     print(df.isnull().sum())
     print("\n")
     
-    # 输出数据的列名
     print("数据的列名:")
     print(df.columns.tolist())
     print("\n")
     
-    # 输出数据的形状
     print("数据的形状（行数, 列数):")
     print(df.shape)
     print("\n")

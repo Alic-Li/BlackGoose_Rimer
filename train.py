@@ -6,6 +6,8 @@ from tqdm import tqdm
 import numpy as np
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from torch.optim.lr_scheduler import ReduceLROnPlateau
+from pridict import predict
+import joblib
 
 def load_config(config_path):
     with open(config_path, 'r') as f:
@@ -31,6 +33,8 @@ def train(config):
     epoch = config['epoch']
     save_ckpt_path = config['save_ckpt_path']
     window_size = config['window_size']
+    scaler_path = config['scaler_path']
+    data_path_validation = config['data_path_validation']
 
     # 初始化配置类
     class Configs:
@@ -60,7 +64,7 @@ def train(config):
     optimizer = torch.optim.Adam(model.parameters(), lr=0.00001) 
 
     # 初始化调度器
-    scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=5, verbose=True)
+    scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=5)
 
     # 训练循环
     for epoch in range(epoch):
@@ -102,8 +106,8 @@ def train(config):
         torch.cuda.empty_cache()
 
         avg_loss = total_loss / len(data_loader)
-        print("=============================================================================")
-        print(f'Epoch [{epoch+1}/{epoch}], Loss: {avg_loss:.4f}')
+        print("============================================================================")
+        print(f'Epoch [{epoch+1}], Training Loss: {avg_loss:.4f}')
 
         # 计算并打印RMSE, MAE, MAPE, R²
         rmse = np.sqrt(mean_squared_error(all_targets, all_preds))
@@ -111,12 +115,34 @@ def train(config):
         mape = np.mean(np.abs((np.array(all_targets) - np.array(all_preds)) / np.array(all_targets))) * 100
         r2 = r2_score(all_targets, all_preds)
 
-        print(f'Epoch [{epoch+1}/{epoch}] - RMSE: {rmse:.4f}, MAE: {mae:.4f}, MAPE: {mape:.2f}%, R²: {r2:.4f}')
-        print("=============================================================================")
+        print("=======================Training Predictive Indicators=======================")
+        print(f'Epoch [{epoch+1}] - RMSE: {rmse:.4f}, MAE: {mae:.4f}, MAPE: {mape:.2f}%, R²: {r2:.4f}')
+        print("============================================================================")
+        model.eval()
 
+        # 加载标准化参数
+        scaler = joblib.load(scaler_path)
+
+        # 创建数据加载器
+        val_data_loader = create_data_loader(data_path_validation, window_size, batch_size, num_workers, scaler=scaler)
+
+        # 进行预测
+        all_preds, all_targets = predict(model, val_data_loader, scaler)
+
+        # 计算并打印RMSE, MAE, MAPE, R²
+        rmse_val = np.sqrt(mean_squared_error(all_targets, all_preds))
+        mae_val = mean_absolute_error(all_targets, all_preds)
+        mape_val = np.mean(np.abs((np.array(all_targets) - np.array(all_preds)) / np.array(all_targets))) * 100
+        r2_val = r2_score(all_targets, all_preds)
+        print("============================================================================")
+        print(f'Epoch [{epoch+1}]')
+        print("======================Validation Predictive Indicators======================")
+        print(f'Prediction - RMSE: {rmse_val:.4f}, MAE: {mae_val:.4f}, MAPE: {mape_val:.2f}%, R²: {r2_val:.4f}')
+        print("============================================================================")
         # 更新调度器
-        scheduler.step(avg_loss)
-
+        current_lr = scheduler.get_last_lr()[0]
+        print(f'Current Learning Rate: {current_lr:.8f}')
+        scheduler.step(total_loss)
         # 保存模型
         torch.save(model.state_dict(), f'{save_ckpt_path}/model.pth')
 
