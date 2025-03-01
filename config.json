@@ -10,10 +10,12 @@
     "output_attention": false,
     "factor": 3,
     "activation": "gelu",
-    "batch_size": 2,
-    "sequence_length": 1000,
+    "batch_size": 10,
     "epoch": 100,
     "num_workers": 4,
     "data_path": "/home/alic-li/PowerForecasting/dataset/electricity/electricity.csv",
-    "save_ckpt_path": "output_weight/ELC"
+    "data_path_test": "/home/alic-li/PowerForecasting/dataset/electricity/test_electricity.csv",
+    "save_ckpt_path": "output_weight/ELC",
+    "window_size": 16,
+    "scaler_path": "output_weight/ELC/scaler_weight/scaler.pkl"
 }

@@ -1,7 +1,7 @@
 import torch
 import json
 from models.Timer import Model
-from utils.data_loader import create_data_loader, extract_last_seven, remove_last_seven
+from utils.data_loader import create_data_loader
 from tqdm import tqdm
 import numpy as np
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
@@ -28,9 +28,9 @@ def train(config):
     batch_size = config['batch_size']
     num_workers = config['num_workers']
     data_path = config['data_path']
-    sequence_length = config['sequence_length']
     epoch = config['epoch']
     save_ckpt_path = config['save_ckpt_path']
+    window_size = config['window_size']
 
     # 初始化配置类
     class Configs:
@@ -53,11 +53,11 @@ def train(config):
     model = Model(configs).cuda()
 
     # 创建数据加载器
-    data_loader = create_data_loader(data_path, sequence_length, batch_size, num_workers)
+    data_loader = create_data_loader(data_path, window_size, batch_size, num_workers)
     print('Data loaded! Start training. Ciallo~(∠・ω< )⌒☆')
 
-    # 初始化优化器
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.05)
+    # 初始化优化器，降低学习率
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.00001) 
 
     # 初始化调度器
     scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=5, verbose=True)
@@ -69,16 +69,21 @@ def train(config):
         all_preds = []
         all_targets = []
 
-        # 创建 tqdm 对象
-        data_loader_tqdm = tqdm(data_loader, desc=f'Epoch {epoch+1}', postfix=dict(loss=0.0))
+        # 获取当前学习率
+        current_lr = optimizer.param_groups[0]['lr']
+
+        # 创建 tqdm 对象，添加学习率信息
+        data_loader_tqdm = tqdm(data_loader, desc=f'Epoch {epoch+1} (LR: {current_lr:.6f})', postfix=dict(loss=0.0))
 
         for batch in data_loader_tqdm:
-            gt = extract_last_seven(batch).cuda()
-            input_x = remove_last_seven(batch).cuda()
+
+            input_x, gt = batch
+            input_x = input_x.cuda()
+            gt = gt.cuda()
             
             # 前向传播
             output = model(input_x, None, None, None, None).cuda()
-            output = extract_last_seven(output)
+            output = output[:, :, -1]
 
             # 计算损失
             loss = torch.nn.MSELoss()(output, gt) 
@@ -87,6 +92,7 @@ def train(config):
             # 反向传播和优化
             optimizer.zero_grad()
             loss.backward()
+            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=0.5)  # 调整梯度裁剪的最大范数
             optimizer.step()
 
             total_loss += loss.item()

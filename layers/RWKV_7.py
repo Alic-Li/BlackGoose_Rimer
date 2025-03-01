@@ -1,6 +1,7 @@
 from rwkvfla.layers import RWKV7Attention # type: ignore
 from rwkvfla.utils import device
 from torch import nn
+import torch
 
 class TMix(nn.Module):
     def __init__(self, dim, block_id, n_blocks):
@@ -32,19 +33,18 @@ class RWKV7Block(nn.Module):
         x = x + self.mlp(self.norm2(x))
         return x
     
-# if __name__ == "__main__":
-#     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-#     dim = 512  # example dimension
-#     block_id = 0
-#     n_blocks = 12
-#     v_first = None
+if __name__ == "__main__":
+    dim = 512  # example dimension
+    block_id = 0
+    n_blocks = 12
+    v_first = None
 
-#     rwkv_block = RWKV7Block(dim, block_id, n_blocks).to(device)
+    rwkv_block = RWKV7Block(dim, block_id, n_blocks).to("cuda")
     
-#     # Dummy input tensor
-#     x = torch.randn(1, 10, dim).to(device)
+    # Dummy input tensor
+    x = torch.randn(1, 10, dim).to("cuda")
 
-#     # Forward pass
-#     x, v_first = rwkv_block(x, v_first)
-#     print(x.shape)
-#     print(x)
+    # Forward pass
+    x = rwkv_block(x)
+    print(x.shape)
+    print(x)
