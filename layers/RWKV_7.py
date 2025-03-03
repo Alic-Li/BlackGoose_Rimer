@@ -3,6 +3,8 @@ from rwkvfla.utils import device
 from torch import nn
 import torch
 
+torch.set_float32_matmul_precision('high')
+
 class TMix(nn.Module):
     def __init__(self, dim, block_id, n_blocks):
         super().__init__()
@@ -31,7 +33,7 @@ class RWKV7Block(nn.Module):
         x_attn, v_first = self.attn(self.norm1(x), v_first=None)
         x = x + x_attn
         x = x + self.mlp(self.norm2(x))
-        return x
+        return x, v_first
     
 if __name__ == "__main__":
     dim = 512  # example dimension
@@ -45,6 +47,6 @@ if __name__ == "__main__":
     x = torch.randn(1, 10, dim).to("cuda")
 
     # Forward pass
-    x = rwkv_block(x)
+    x, _ = rwkv_block(x)
     print(x.shape)
     print(x)

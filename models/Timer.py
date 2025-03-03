@@ -19,7 +19,7 @@ class Model(nn.Module):
 
         self.output_attention = configs.output_attention
 
-        self.backbone = TimerBackbone.Model(configs)
+        self.backbone = TimerBackbone.Model_RWKV7(configs)
         # Decoder
         self.decoder = self.backbone.decoder
         self.proj = self.backbone.proj
@@ -53,8 +53,9 @@ class Model(nn.Module):
         # do patching and embedding
         x_enc = x_enc.permute(0, 2, 1) # [B, M, T]
         dec_in, n_vars = self.enc_embedding(x_enc) # [B * M, N, D]
+        # print(dec_in.shape)
 
-        # Transformer Blocks
+        # RWKV7 Blocks
         dec_out, attns = self.decoder(dec_in) # [B * M, N, D]
         dec_out = self.proj(dec_out) # [B * M, N, L]
         dec_out = dec_out.reshape(B, M, -1).transpose(1, 2) # [B, T, M]

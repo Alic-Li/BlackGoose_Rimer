@@ -9,6 +9,7 @@ from torch.optim.lr_scheduler import ReduceLROnPlateau
 from pridict import predict
 import joblib
 
+
 def load_config(config_path):
     with open(config_path, 'r') as f:
         config = json.load(f)
@@ -86,7 +87,8 @@ def train(config):
             gt = gt.cuda()
             
             # 前向传播
-            output = model(input_x, None, None, None, None).cuda()
+            output, state = model(input_x, None, None, None, None)
+            output = output.cuda()
             output = output[:, :, -1]
 
             # 计算损失
@@ -127,7 +129,7 @@ def train(config):
         val_data_loader = create_data_loader(data_path_validation, window_size, batch_size, num_workers, scaler=scaler)
 
         # 进行预测
-        all_preds, all_targets = predict(model, val_data_loader, scaler)
+        all_preds, all_targets, val_loss = predict(model, val_data_loader, scaler)
 
         # 计算并打印RMSE, MAE, MAPE, R²
         rmse_val = np.sqrt(mean_squared_error(all_targets, all_preds))
@@ -141,7 +143,7 @@ def train(config):
         print("============================================================================")
         # 更新调度器
         current_lr = scheduler.get_last_lr()[0]
-        print(f'Current Learning Rate: {current_lr:.8f}')
+        print(f'Current Learning Rate: {current_lr:.8f}, Validation Loss: {val_loss:.4f}')
         scheduler.step(total_loss)
         # 保存模型
         torch.save(model.state_dict(), f'{save_ckpt_path}/model.pth')
