@@ -1,6 +1,5 @@
-# RWKV V7 Black Goose Sequence Forecasting
+# BlackGoose Rimer: RWKV as a Superior Architecture for Large-Scale Time Series Modeling
 ![RRFVCM](./back_goose.png)
-### RWKV V7 Sequence Forecasting model for General tasks
 
 ## 1. Project Overview
 #### A general time series forecasting model based on the RWKV_v7 architecture

@@ -46,7 +46,7 @@ def create_data_loader(data_path, window_size, batch_size, num_workers, target_c
     return DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers)
 
 if __name__ == '__main__':
-    data_loader = create_data_loader('/home/alic-li/PowerForecasting/dataset/electricity/electricity.csv', window_size=10, batch_size=1, num_workers=4)
+    data_loader = create_data_loader('dataset/electricity/train_electricity.csv', window_size=10, batch_size=1, num_workers=4)
     print(len(data_loader))
     for i, (x, y) in enumerate(data_loader):
         print(f"x shape: {x.shape}, y shape: {y.shape}")
