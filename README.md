@@ -22,7 +22,7 @@ This code run seccessfully on the following GPU environment:
 ```bash
 git clone https://github.com/Alic-Li/RWKV_V7_Black_Goose_Sequence_Forecasting.git
 cd RWKV_V7_Black_Goose_Sequence_Forecasting
-pip install torch torchvision torchaudio tqdm numpy rwkv-fla sklearn joblib matplotlib pandas 
+pip install torch torchvision torchaudio tqdm numpy rwkv-fla scikit-learn joblib matplotlib pandas 
 ```
 
 ### 3.3 Data Preparation
