@@ -1,7 +1,7 @@
 # BlackGoose Rimer: RWKV as a Superior Architecture for Large-Scale Time Series Modeling 
 ![RRFVCM](./back_goose.png)
 
-## 1. Project Overview 🫣
+## 1. Project Overview 👀
 #### A general time series forecasting model based on the RWKV_v7 architecture
 
 ## 2. Features 🐦
@@ -9,6 +9,21 @@
 #### The prediction accuracy is higher than that of the Tsinghua Timer project, and the training and prediction speed is four times that of the Timer project  which based on the Transformer architecture.
 
 ## 3. Benchmarks 🚀
+
+### Model Params 🫣
+| Model             | Params        | 
+| :-----            |:----:         |
+| Rimer_RWKV_v7     |```1.6M```     |
+| Timer_Transformer |```37.8M```    |
+
+### Model Training time use ELC Dataset ⏰
+| Model             | Time          | 
+| :-----            |:----:         |
+| Rimer_RWKV_v7     |```1:12 min``` |
+| Timer_Transformer |```5:05 min``` |
+
+(Rimer_RWKV_v7 Triton operator warm-up is completed in epoch 2)
+
 ### ELC test dataset ⚡
 | Model             | RMSE          | MAE           | MAPE   🥲 |  R^2       | 
 | :-----            |:----:         |:----:         |:----:     |:----:      |
@@ -41,7 +56,7 @@ This code run seccessfully on the following GPU environment:
 * AMD Radeon Pro W7900 48G (Ubuntu 24.04 Python 3.12 ROCm 6.3)
 * AMD Radeon RX 6750xt 12G (Ubuntu 24.04 Python 3.12 ROCm 6.3)
 
-### 4.2 Install Dependencies 
+### 4.2 Install Dependencies 😜
 
 ```bash
 git clone https://github.com/Alic-Li/RWKV_V7_Black_Goose_Sequence_Forecasting.git
@@ -58,10 +73,12 @@ Datasets in the path of ```./dataset/```
 ```bash
 python ./train.py 
 ```
+#### The results of the test set are saved in the path of ```./output_weight/[DATASET_NAME]/```
 ### 5.2 Testing & Evaluation with plot 🤯
 ```bash
 python ./pridict_with_plot.py
 ```
+#### Change The ```self.backbone = TimerBackbone.Model(configs）```  To  ```self.backbone = TimerBackbone.Model_RWKV7(configs)``` in ```./models/Timer.py``` Line 22 to use Rimer_RWKV_v7 else Use Timer_Transformer
 ## Thanks 🫡
 - RWKV_V7: https://github.com/BlinkDL/RWKV-LM
 - This code is based on the https://github.com/thuml/Large-Time-Series-Model

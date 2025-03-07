@@ -43,7 +43,8 @@ def predict(model, data_loader, scaler):
             # 提取第一个样本的预测值和真实值
             first_sample_pred = output_denorm[0]
             first_sample_gt = gt_denorm[0]
-
+    total_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    print(f'Total trainable parameters: {total_params}')
     return all_preds, all_targets, gt_denorm, output_denorm, first_sample_pred, first_sample_gt
 
 # 加载配置
