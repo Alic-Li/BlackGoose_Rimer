@@ -15,7 +15,6 @@ def predict(model, data_loader, scaler):
     model.eval()
     all_preds = []
     all_targets = []
-    all_losses = []
 
     with torch.no_grad():
         for batch in data_loader:
@@ -25,8 +24,10 @@ def predict(model, data_loader, scaler):
             
             # 前向传播
             output, state = model(input_x, None, None, None, None)
-            output = output.cuda()
             output = output[:, :, -1]  # 只取最后一个时间步的预测值
+            # print("Scaler mean shape:", scaler.mean_.shape)
+            # print("Scaler scale shape:", scaler.scale_.shape)
+            # print("Output shape:", output.shape)
 
             last_feature_output = output.cpu().numpy()
             last_feature_gt = gt.cpu().numpy()
@@ -38,14 +39,7 @@ def predict(model, data_loader, scaler):
             all_preds.extend(output_denorm)
             all_targets.extend(gt_denorm)
 
-            # 计算MSE损失
-            mse_loss = mean_squared_error(gt_denorm, output_denorm)
-            all_losses.append(mse_loss)
-
-    # 计算平均MSE损失
-    avg_mse_loss = np.mean(all_losses)
-
-    return all_preds, all_targets, avg_mse_loss
+    return all_preds, all_targets, gt_denorm, output_denorm
 
 # 加载配置
 config_path = 'config.json'

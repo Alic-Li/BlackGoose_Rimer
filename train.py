@@ -129,13 +129,13 @@ def train(config):
         val_data_loader = create_data_loader(data_path_validation, window_size, batch_size, num_workers, scaler=scaler)
 
         # 进行预测
-        all_preds, all_targets, val_loss = predict(model, val_data_loader, scaler)
+        _, _, gt_denorm, output_denorm = predict(model, val_data_loader, scaler)
 
         # 计算并打印RMSE, MAE, MAPE, R²
-        rmse_val = np.sqrt(mean_squared_error(all_targets, all_preds))
-        mae_val = mean_absolute_error(all_targets, all_preds)
-        mape_val = np.mean(np.abs((np.array(all_targets) - np.array(all_preds)) / np.array(all_targets))) * 100
-        r2_val = r2_score(all_targets, all_preds)
+        rmse_val = np.sqrt(mean_squared_error(gt_denorm, output_denorm))
+        mae_val = mean_absolute_error(gt_denorm, output_denorm)
+        mape_val = np.mean(np.abs((np.array(gt_denorm) - np.array(output_denorm)) / np.array(gt_denorm))) * 100
+        r2_val = r2_score(gt_denorm, output_denorm)
         print("============================================================================")
         print(f'Epoch [{epoch+1}]')
         print("======================Validation Predictive Indicators======================")
@@ -143,8 +143,9 @@ def train(config):
         print("============================================================================")
         # 更新调度器
         current_lr = scheduler.get_last_lr()[0]
-        print(f'Current Learning Rate: {current_lr:.8f}, Validation Loss: {val_loss:.4f}')
-        scheduler.step(total_loss)
+        val_MSE_loss = mean_squared_error(gt_denorm, output_denorm)
+        print(f'Current Learning Rate: {current_lr:.8f}, Validation Loss: {val_MSE_loss:.4f}')
+        scheduler.step(val_MSE_loss)
         # 保存模型
         torch.save(model.state_dict(), f'{save_ckpt_path}/model.pth')
 

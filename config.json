@@ -10,13 +10,13 @@
     "output_attention": true,
     "factor": 3,
     "activation": "gelu",
-    "batch_size": 20,
-    "epoch": 10,
+    "batch_size": 30,
+    "epoch": 20,
     "num_workers": 4,
-    "data_path": "./dataset/electricity/train_electricity.csv",
-    "data_path_test": "./dataset/electricity/test_electricity.csv",
-    "data_path_validation": "./dataset/electricity/val_electricity.csv",
-    "save_ckpt_path": "output_weight/ELC",
+    "data_path": "./dataset/weather/train_weather.csv",
+    "data_path_test": "./dataset/weather/test_weather.csv",
+    "data_path_validation": "./dataset/weather/val_weather.csv",
+    "save_ckpt_path": "output_weight/weather",
     "window_size": 32,
-    "scaler_path": "output_weight/ELC/scaler_weight/scaler.pkl"
+    "scaler_path": "output_weight/weather/scaler_weight/scaler.pkl"
 }

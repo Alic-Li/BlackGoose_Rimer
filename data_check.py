@@ -47,7 +47,7 @@ def save_datasets(train_df, val_df, test_df, train_file_path, val_file_path, tes
     print(f"验证集已保存到 {val_file_path}")
     print(f"测试集已保存到 {test_file_path}")
 
-file_path = 'dataset/electricity/train_electricity.csv'
+file_path = '/home/alic-li/BlackGoose_Rimer/dataset/weather/weather.csv'
 df = pd.read_csv(file_path)
 
 # 打印CSV信息
@@ -67,8 +67,8 @@ print("测试集的形状（行数, 列数):")
 print(test_df.shape)
 print("\n")
 
-# # 保存数据集
-# train_file_path = '/home/alic-li/PowerForecasting/dataset/electricity/train_electricity.csv'
-# val_file_path = '/home/alic-li/PowerForecasting/dataset/electricity/val_electricity.csv'
-# test_file_path = '/home/alic-li/PowerForecasting/dataset/electricity/test_electricity.csv'
-# save_datasets(train_df, val_df, test_df, train_file_path, val_file_path, test_file_path)
+# 保存数据集
+train_file_path = '/home/alic-li/BlackGoose_Rimer/dataset/weather/train_weather.csv'
+val_file_path = '/home/alic-li/BlackGoose_Rimer/dataset/weather/val_weather.csv'
+test_file_path = '/home/alic-li/BlackGoose_Rimer/dataset/weather/test_weather.csv'
+save_datasets(train_df, val_df, test_df, train_file_path, val_file_path, test_file_path)

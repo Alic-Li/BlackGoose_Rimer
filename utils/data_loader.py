@@ -4,6 +4,12 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 import joblib
+import json
+
+def load_config(config_path):
+    with open(config_path, 'r') as f:
+        config = json.load(f)
+    return config
 
 class PowerDataset(Dataset):
     def __init__(self, data_path, window_size, target_column=None, scaler=None):
@@ -13,13 +19,15 @@ class PowerDataset(Dataset):
         self.data = self.data.iloc[:26000]
         # 将所有列转换为 float32 类型
         self.data = self.data.astype(np.float32)
+        config = load_config('config.json')
+        scaler_path = config['scaler_path']
         
         if scaler is None:
             # 标准化数据
             self.scaler = StandardScaler()
             self.data_scaled = self.scaler.fit_transform(self.data)
             # 保存标准化参数
-            joblib.dump(self.scaler, 'output_weight/ELC/scaler_weight/scaler.pkl')
+            joblib.dump(self.scaler, scaler_path)
         else:
             self.scaler = scaler
             self.data_scaled = self.scaler.transform(self.data)
