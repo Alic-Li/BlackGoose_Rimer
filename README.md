@@ -56,7 +56,7 @@ This code run seccessfully on the following GPU environment:
 * AMD Radeon Pro W7900 48G (Ubuntu 24.04 Python 3.12 ROCm 6.3)
 * AMD Radeon RX 6750xt 12G (Ubuntu 24.04 Python 3.12 ROCm 6.3)
 
-### 4.2 Install Dependencies 😜
+### 4.2 Install Dependencies 🤓
 
 ```bash
 git clone https://github.com/Alic-Li/RWKV_V7_Black_Goose_Sequence_Forecasting.git
@@ -66,8 +66,8 @@ pip install torch torchvision torchaudio tqdm numpy rwkv-fla scikit-learn joblib
 
 ### 4.3 Data Preparation 🤗
 
-Datasets in the path of ```./dataset/```
-ModeConfigs in the file of ```./config.json```
+- Datasets in the path of ```./dataset/```
+- ModeConfigs in the file of ```./config.json```
 ## 5. Usage 
 ### 5.1 Training 🔥
 ```bash
