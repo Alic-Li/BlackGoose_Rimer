@@ -67,7 +67,7 @@ pip install torch torchvision torchaudio tqdm numpy rwkv-fla scikit-learn joblib
 ### 4.3 Data Preparation 🤗
 
 Datasets in the path of ```./dataset/```
-
+ModeConfigs in the file of ```./config.json```
 ## 5. Usage 
 ### 5.1 Training 🔥
 ```bash
