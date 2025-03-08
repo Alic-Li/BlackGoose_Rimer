@@ -31,10 +31,10 @@
 | Timer_Transformer |0.6488         |0.2127         |```0.61%```|0.9755      |
 
 ### ETTH test dataset ⚡
-| Model             | RMSE  🥲      | MAE   🥲      | MAPE      |  R^2       | 
+| Model             | RMSE          | MAE           | MAPE      |  R^2       | 
 | :-----            |:----:         |:----:         |:----:     |:----:      |
-| Rimer_RWKV_v7     |0.1793         |0.0298         |```0.42%```|```0.9660```|
-| Timer_Transformer |```0.0055```   |```0.0015```   |23.95%     |0.8901      |
+| Rimer_RWKV_v7     |```0.0133```   |```0.0112```   |```0.16%```|```0.9998```|
+| Timer_Transformer |0.5770         |0.4050         |6.50%      |0.9968      |
 
 ### Traffic test dataset 🚥
 | Model             | RMSE          | MAE           | MAPE      |  R^2       | 
