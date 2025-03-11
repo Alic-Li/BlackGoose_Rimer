@@ -1,5 +1,5 @@
-# BlackGoose Rimer: RWKV as a Superior Architecture for Large-Scale Time Series Modeling 
-![RRFVCM](./back_goose.png)
+# BlackGoose Rimer: RWKV as a Superior Architecture for Large-Scale Time Series Modeling [![arXiv](https://img.shields.io/badge/arXiv-2503.06121-b31b1b.svg)](https://arxiv.org/abs/2503.06121)
+![img](./back_goose.png)
 
 ## 1. Project Overview 👀
 #### A general time series forecasting model based on the RWKV_v7 architecture
