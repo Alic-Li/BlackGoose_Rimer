@@ -61,7 +61,15 @@ This code run seccessfully on the following GPU environment:
 ```bash
 git clone https://github.com/Alic-Li/RWKV_V7_Black_Goose_Sequence_Forecasting.git
 cd RWKV_V7_Black_Goose_Sequence_Forecasting
-pip install torch torchvision torchaudio tqdm numpy rwkv-fla scikit-learn joblib matplotlib pandas 
+pip install torch torchvision torchaudio tqdm numpy scikit-learn joblib matplotlib pandas 
+```
+- For AMD ROCm
+```bash
+pip install rwkv-fla[rocm]==0.7.202503140658
+```
+- For Nvidia CUDA
+```bash
+pip install rwkv-fla[cuda]==0.7.202503140658
 ```
 
 ### 4.3 Data Preparation 🤗
