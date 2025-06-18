@@ -5,7 +5,7 @@
 #### A general time series forecasting model based on the RWKV_v7 architecture
 
 ## 2. Features 🐦
-#### High training prediction efficiency, low video memory usage, high prediction accuracy
+#### High training prediction efficiency, low VRAM usage, high prediction accuracy
 #### The prediction accuracy is higher than that of the Tsinghua Timer project, and the training and prediction speed is four times that of the Timer project  which based on the Transformer architecture.
 
 ## 3. Benchmarks 🚀
