@@ -65,11 +65,11 @@ pip install torch torchvision torchaudio tqdm numpy scikit-learn joblib matplotl
 ```
 - For AMD ROCm
 ```bash
-pip install triton==3.2.0 rwkv-fla[rocm]==0.7.202503140658
+pip install triton==3.2.0 rwkv-fla[rocm]==0.7.202503140658 transformers==4.50.1
 ```
 - For Nvidia CUDA
 ```bash
-pip install triton==3.2.0 rwkv-fla[cuda]==0.7.202503140658
+pip install triton==3.2.0 rwkv-fla[cuda]==0.7.202503140658 transformers==4.50.1
 ```
 
 ### 4.3 Data Preparation 🤗
